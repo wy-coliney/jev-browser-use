@@ -148,8 +148,8 @@ export function discoverActions(state, policy={}) {
 async function execute(tab, action) {
   if (action.op === 'click') await tab.click(action.index);
   else if (action.op === 'scroll' && action.target !== undefined) await tab.scroll(action.target,action.direction,action.amount ?? 1);
-  else if (action.op === 'scroll') for (let i=0;i<(action.amount ?? 1);i++) await tab.pressKey(action.direction === 'down' ? 'PageDown' : 'PageUp');
-  else if (action.op === 'press') await tab.pressKey(action.key);
+  else if (action.op === 'scroll') for (let i=0;i<(action.amount ?? 1);i++) await tab.pressKey(null,action.direction === 'down' ? 'PageDown' : 'PageUp');
+  else if (action.op === 'press') await tab.pressKey(null,action.key);
   else if (action.op === 'reload') await tab.reload();
 }
 
