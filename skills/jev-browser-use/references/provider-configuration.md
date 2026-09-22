@@ -47,6 +47,13 @@ The adapter reads `OPENROUTER_API_KEY` (lowercase `openrouter_api_key` is also a
 - Missing credentials are configuration errors. Do not search unrelated files or silently switch adapters.
 - Browser tasks should spread `loadConfig()` into `createSession()` or `run()` unchanged. Provider changes belong to installation or maintenance, not task execution.
 
+## Diagnose failures by stage
+
+- If `mcp__cua_repl.js` is absent, follow the [direct-tool discovery and first probe](../SKILL.md#discover-the-browser-tool-correctly--required-before-declaring-it-unavailable). Searching `functions.exec`'s deferred tools cannot establish whether CUA is available.
+- If Chrome attachment rejects a login mode, the failure is in the browser connector before any Jev provider request. Use the in-app browser when the task permits it, or report the Chrome connector error with the Codex/CUA version; do not change Jev credentials to fix browser login.
+- If a provider request reports `DNS lookup failed in this runtime (ENOTFOUND)`, run the [credential-free CUA transport probe](../SKILL.md#check-provider-transport-inside-cua). No provider response or authentication result was received. Shell connectivity does not establish CUA connectivity.
+- HTTP 401/403 comes from a reached provider and calls for checking the selected adapter, credential, and account access without printing the secret.
+
 ## References
 
 - [TypeSafe documentation](https://docs.typesafe.ai/introduction)
