@@ -4,7 +4,7 @@
   "description": "Fast browser actions with Jev and independent verification with Codex.",
   "type": "module",
   "scripts": {
-    "test": "node --test test/**/*.test.mjs"
+    "test": "node --test"
   },
   "engines": {
     "node": ">=22.0.0"
