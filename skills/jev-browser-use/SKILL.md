@@ -68,6 +68,10 @@ plugin is missing. Do not repeatedly search that list or stop on that basis.
    the plugin is uninstalled. A new task or app restart is a recovery option,
    not a guaranteed fix. Create a new task only when the user explicitly requests
    one, and use the handoff checklist below.
+   If Chrome attachment rejects its login mode, report that browser-connector
+   error separately from Jev provider authentication. When the user did not
+   require Chrome or an existing tab, the in-app browser is an available route;
+   never silently replace a specifically requested Chrome session.
 6. Do not repeatedly run the same empty discovery query, write diagnostic files
    by default, rewrite bundled launchers, copy private plugin environments, disable
    safeguards, or install another browser driver to bypass missing capabilities.
@@ -104,6 +108,38 @@ next invocation. Keep `taskTab` for subsequent navigation and the Jev loop.
 | API reports HTTP 401/403 | Credential/access problem, not browser discovery. |
 | Jev returns `needs_verification` | Independently check the page; do not claim pass yet. |
 | Direct tool genuinely absent | Report tool-declaration evidence and perform the recovery above. |
+
+### Check provider transport inside CUA
+
+After the first CUA call, use this credential-free probe when setup or a Jev
+request reports a transport failure. Run it **inside `mcp__cua_repl.js`**, where
+the bridge's `fetch` runs. It does not call the Jev API or read the credential
+file. Replace `api.typesafe.ai` with `openrouter.ai` for OpenRouter.
+
+```js
+var dns = await import('node:dns/promises');
+var probe = {};
+for (var host of ['example.com', 'api.typesafe.ai']) {
+  try { await dns.lookup(host); probe[host] = 'dns_ok'; }
+  catch (error) { probe[host] = error.code ?? error.name; }
+}
+try {
+  var response = await fetch('https://example.com', {signal: AbortSignal.timeout(10000)});
+  probe.fetch = response.status;
+} catch (error) {
+  probe.fetch = error.cause?.code ?? error.name;
+}
+nodeRepl.write(probe);
+```
+
+`ENOTFOUND` here means this CUA runtime cannot resolve the host and no Jev
+request can reach that provider. A successful shell request proves only shell
+connectivity. A successful CUA probe proves transport to the probed host, not
+provider authentication or Jev inference. Codex/CUA build numbers alone do not
+establish support across host policies, so check the active task rather than
+assuming a version is compatible. If the probe fails, report the runtime result
+and use only a supported, authorized browser/provider integration; do not patch
+launchers or route credentials through an unrelated process.
 
 ## Hand off without losing the task
 

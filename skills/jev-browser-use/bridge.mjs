@@ -81,7 +81,12 @@ export async function decide({envFile,provider='typesafe',model,goal,state,actio
   let response;
   try {
     response = await fetch(route.endpoint,{method:'POST',redirect:'error',signal:AbortSignal.timeout(timeoutMs),headers:{Authorization:`Bearer ${key}`,'Content-Type':'application/json'},body});
-  } catch { throw new Error(`${provider} transport failure or timeout`); }
+  } catch (error) {
+    if ((error?.cause?.code ?? error?.code) === 'ENOTFOUND') {
+      throw new Error(`${provider} DNS lookup failed in this runtime (ENOTFOUND); provider was not reached`);
+    }
+    throw new Error(`${provider} transport failure or timeout`);
+  }
   if (!response.ok) throw new Error(`${provider} HTTP ${response.status}`);
   let result;
   try { result = await response.json(); } catch { throw new Error(`Invalid ${provider} JSON`); }

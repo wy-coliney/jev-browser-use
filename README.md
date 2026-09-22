@@ -144,6 +144,12 @@ Standard uncached API rates, checked September 18, 2026: [TypeSafe pricing](http
 
 Browser workflows were exercised on macOS. Page text goes to your selected provider; only delegate data you authorize it to process. Keep credentials and private page content out of public issues. See the [full Skill](skills/jev-browser-use/SKILL.md) for runtime requirements and handoffs.
 
+### Troubleshooting
+
+If Codex says the browser tool is missing, check the [direct `mcp__cua_repl.js` discovery steps](skills/jev-browser-use/SKILL.md#discover-the-browser-tool-correctly--required-before-declaring-it-unavailable). The tool is not listed inside `functions.exec`'s deferred tools. Installing the Skill alone does not add Computer Use to a task.
+
+If Chrome connection fails before Jev runs, check the [browser connector guidance](skills/jev-browser-use/references/provider-configuration.md#diagnose-failures-by-stage). When the task allows either browser, the in-app browser may work even if Chrome attachment does not. If a Jev request fails with `ENOTFOUND`, use the [credential-free CUA network probe](skills/jev-browser-use/SKILL.md#check-provider-transport-inside-cua); a successful shell request does not prove network access inside CUA.
+
 ## Official guides
 
 [Jev introduction](https://docs.typesafe.ai/introduction) · [Jev API quick start](https://docs.typesafe.ai/introduction/quickstart) · [Codex plugins](https://developers.openai.com/plugins/build/plugins) · [Skills CLI](https://github.com/vercel-labs/skills)
