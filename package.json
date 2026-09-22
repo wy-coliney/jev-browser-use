@@ -1,0 +1,25 @@
+{
+  "name": "jev-browser-use",
+  "version": "0.1.0",
+  "description": "Fast browser actions with Jev and independent verification with Codex.",
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/**/*.test.mjs"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "keywords": [
+    "browser-use",
+    "jev",
+    "codex",
+    "skills",
+    "agent"
+  ],
+  "author": "EZCollegeApp",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wy-coliney/jev-browser-use.git"
+  }
+}
