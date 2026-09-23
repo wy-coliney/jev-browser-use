@@ -22,6 +22,14 @@ npx skills add wy-coliney/jev-browser-use -g -a codex -y
 
 Then [configure your Jev API](skills/jev-browser-use/references/provider-configuration.md) and start a new Codex task.
 
+**Update a Skill installed this way:**
+
+```sh
+npx skills update jev-browser-use -g
+```
+
+Start a new Codex task after updating to load the new Skill instructions. The update does not change your `~/.config/jev-browser-use/config.json` or credential file.
+
 Choose the provider that issued your API key. A TypeSafe key goes with `provider: "typesafe"` and `TYPESAFE_API_KEY`; an OpenRouter key goes with `provider: "openrouter"` and `OPENROUTER_API_KEY`. These keys are not interchangeable, even though both providers offer Jev. Put the key in the dotenv file named by `envFile` in `~/.config/jev-browser-use/config.json`.
 
 You need **Node.js 22+**, **Codex with Computer Use connected to Chrome or its in-app browser**, and **Jev access through TypeSafe or OpenRouter Decisions**. Installing this Skill does not install the browser connection.
@@ -140,7 +148,6 @@ Standard uncached API rates, checked September 18, 2026: [TypeSafe pricing](http
 ## Setup and updates
 
 - **Configuration:** [Choose your provider and connect your API](skills/jev-browser-use/references/provider-configuration.md). All installation methods share `~/.config/jev-browser-use/config.json`.
-- **npx updates:** `npx skills update jev-browser-use`.
 - **Plugin updates:** refresh with `codex plugin marketplace upgrade jev-browser-use`, reinstall with `codex plugin add jev-browser-use@jev-browser-use`, then restart Codex.
 - **Manual updates:** pull the repository and run `node scripts/install.mjs --no-config`.
 
