@@ -4,6 +4,15 @@ Read this when installing the skill, changing providers or credentials, or diagn
 
 The installer chooses a supported adapter. The skill does not prefer one provider over another and never falls back automatically.
 
+Match the provider to the service that issued your key:
+
+| Key issued by | `provider` | Credential variable | Endpoint |
+| --- | --- | --- | --- |
+| TypeSafe | `typesafe` | `TYPESAFE_API_KEY` | `api.typesafe.ai` |
+| OpenRouter | `openrouter` | `OPENROUTER_API_KEY` | `openrouter.ai` |
+
+A TypeSafe key in `OPENROUTER_API_KEY` will be sent to OpenRouter and will not authenticate there. If you have a TypeSafe key, choose the TypeSafe adapter instead. The dotenv filename is not fixed: the Skill reads only the file specified by `envFile` in `config.json`.
+
 ## Configuration file
 
 Create `~/.config/jev-browser-use/config.json`. It contains only:
@@ -51,8 +60,8 @@ The adapter reads `OPENROUTER_API_KEY` (lowercase `openrouter_api_key` is also a
 
 - If `mcp__cua_repl.js` is absent, follow the [direct-tool discovery and first probe](../SKILL.md#discover-the-browser-tool-correctly--required-before-declaring-it-unavailable). Searching `functions.exec`'s deferred tools cannot establish whether CUA is available.
 - If Chrome attachment rejects a login mode, the failure is in the browser connector before any Jev provider request. Use the in-app browser when the task permits it, or report the Chrome connector error with the Codex/CUA version; do not change Jev credentials to fix browser login.
-- If a provider request reports `DNS lookup failed in this runtime (ENOTFOUND)`, run the [credential-free CUA transport probe](../SKILL.md#check-provider-transport-inside-cua). No provider response or authentication result was received. Shell connectivity does not establish CUA connectivity. If browser control remains available, finish the authorized task with native CUA actions and report the Jev limitation for that task.
-- HTTP 401/403 means the *request that received it* reached a server. Check that request's provider, endpoint, selected adapter, credential, and account access without printing the secret. A 401 from a separate shell request cannot explain or fix CUA `ENOTFOUND`.
+- If a provider request reports `DNS lookup failed in this runtime (ENOTFOUND)`, run the [credential-free CUA transport probe](../SKILL.md#check-provider-transport-inside-cua). No provider response or authentication result was received. Shell connectivity does not establish CUA connectivity.
+- HTTP 401/403 comes from a reached provider and calls for checking the selected adapter, credential, and account access without printing the secret.
 
 ## References
 

@@ -132,20 +132,14 @@ try {
 nodeRepl.write(probe);
 ```
 
-`ENOTFOUND` here means this CUA task could not resolve the probed host; no
-provider authentication was attempted through that request. A successful shell
-request proves only shell connectivity. If a separate shell request returns HTTP
-401/403, investigate its provider, endpoint, and credential separately; changing
-the credential cannot repair CUA DNS. A successful CUA probe proves transport to
-the probed host, not provider authentication or Jev inference. Do not infer a
-Codex-wide network policy, a missing settings switch, or a version compatibility
-rule from one task's probe.
-
-If the CUA probe confirms provider DNS failure but browser control still works,
-stop Jev calls for this run and continue the authorized browser task with
-Codex's native CUA actions. Independently verify the outcome and report that
-Jev delegation was unavailable in this task. Do not patch launchers, create a
-credential proxy, or route credentials through an unrelated process.
+`ENOTFOUND` here means this CUA runtime cannot resolve the host and no Jev
+request can reach that provider. A successful shell request proves only shell
+connectivity. A successful CUA probe proves transport to the probed host, not
+provider authentication or Jev inference. Codex/CUA build numbers alone do not
+establish support across host policies, so check the active task rather than
+assuming a version is compatible. If the probe fails, report the runtime result
+and use only a supported, authorized browser/provider integration; do not patch
+launchers or route credentials through an unrelated process.
 
 ## Hand off without losing the task
 

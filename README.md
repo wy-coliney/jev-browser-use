@@ -22,6 +22,8 @@ npx skills add wy-coliney/jev-browser-use -g -a codex -y
 
 Then [configure your Jev API](skills/jev-browser-use/references/provider-configuration.md) and start a new Codex task.
 
+Choose the provider that issued your API key. A TypeSafe key goes with `provider: "typesafe"` and `TYPESAFE_API_KEY`; an OpenRouter key goes with `provider: "openrouter"` and `OPENROUTER_API_KEY`. These keys are not interchangeable, even though both providers offer Jev. Put the key in the dotenv file named by `envFile` in `~/.config/jev-browser-use/config.json`.
+
 You need **Node.js 22+**, **Codex with Computer Use connected to Chrome or its in-app browser**, and **Jev access through TypeSafe or OpenRouter Decisions**. Installing this Skill does not install the browser connection.
 
 <details>
@@ -148,7 +150,7 @@ Browser workflows were exercised on macOS. Page text goes to your selected provi
 
 If Codex says the browser tool is missing, check the [direct `mcp__cua_repl.js` discovery steps](skills/jev-browser-use/SKILL.md#discover-the-browser-tool-correctly--required-before-declaring-it-unavailable). The tool is not listed inside `functions.exec`'s deferred tools. Installing the Skill alone does not add Computer Use to a task.
 
-If Chrome connection fails before Jev runs, check the [browser connector guidance](skills/jev-browser-use/references/provider-configuration.md#diagnose-failures-by-stage). When the task allows either browser, the in-app browser may work even if Chrome attachment does not. If a Jev request fails with `ENOTFOUND`, use the [credential-free CUA network probe](skills/jev-browser-use/SKILL.md#check-provider-transport-inside-cua); a successful shell request does not prove network access inside CUA. If CUA browser control still works, finish the authorized task with native browser actions and report that Jev delegation failed in that task.
+If Chrome connection fails before Jev runs, check the [browser connector guidance](skills/jev-browser-use/references/provider-configuration.md#diagnose-failures-by-stage). When the task allows either browser, the in-app browser may work even if Chrome attachment does not. If a Jev request fails with `ENOTFOUND`, use the [credential-free CUA network probe](skills/jev-browser-use/SKILL.md#check-provider-transport-inside-cua); a successful shell request does not prove network access inside CUA.
 
 ## Official guides
 
