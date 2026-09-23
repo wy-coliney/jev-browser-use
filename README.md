@@ -148,7 +148,7 @@ Browser workflows were exercised on macOS. Page text goes to your selected provi
 
 If Codex says the browser tool is missing, check the [direct `mcp__cua_repl.js` discovery steps](skills/jev-browser-use/SKILL.md#discover-the-browser-tool-correctly--required-before-declaring-it-unavailable). The tool is not listed inside `functions.exec`'s deferred tools. Installing the Skill alone does not add Computer Use to a task.
 
-If Chrome connection fails before Jev runs, check the [browser connector guidance](skills/jev-browser-use/references/provider-configuration.md#diagnose-failures-by-stage). When the task allows either browser, the in-app browser may work even if Chrome attachment does not. If a Jev request fails with `ENOTFOUND`, use the [credential-free CUA network probe](skills/jev-browser-use/SKILL.md#check-provider-transport-inside-cua); a successful shell request does not prove network access inside CUA.
+If Chrome connection fails before Jev runs, check the [browser connector guidance](skills/jev-browser-use/references/provider-configuration.md#diagnose-failures-by-stage). When the task allows either browser, the in-app browser may work even if Chrome attachment does not. If a Jev request fails with `ENOTFOUND`, use the [credential-free CUA network probe](skills/jev-browser-use/SKILL.md#check-provider-transport-inside-cua); a successful shell request does not prove network access inside CUA. If CUA browser control still works, finish the authorized task with native browser actions and report that Jev delegation failed in that task.
 
 ## Official guides
 
