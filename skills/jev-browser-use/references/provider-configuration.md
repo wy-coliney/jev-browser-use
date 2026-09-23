@@ -4,6 +4,15 @@ Read this when installing the skill, changing providers or credentials, or diagn
 
 The installer chooses a supported adapter. The skill does not prefer one provider over another and never falls back automatically.
 
+Match the provider to the service that issued your key:
+
+| Key issued by | `provider` | Credential variable | Endpoint |
+| --- | --- | --- | --- |
+| TypeSafe | `typesafe` | `TYPESAFE_API_KEY` | `api.typesafe.ai` |
+| OpenRouter | `openrouter` | `OPENROUTER_API_KEY` | `openrouter.ai` |
+
+A TypeSafe key in `OPENROUTER_API_KEY` will be sent to OpenRouter and will not authenticate there. If you have a TypeSafe key, choose the TypeSafe adapter instead. The dotenv filename is not fixed: the Skill reads only the file specified by `envFile` in `config.json`.
+
 ## Configuration file
 
 Create `~/.config/jev-browser-use/config.json`. It contains only:
