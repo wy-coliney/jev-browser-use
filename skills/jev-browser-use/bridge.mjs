@@ -1,5 +1,5 @@
 import { readFile } from 'node:fs/promises';
-import { parseEnv } from 'node:util';
+import { parseEnv, types } from 'node:util';
 import { homedir } from 'node:os';
 import { join } from 'node:path';
 
@@ -186,7 +186,7 @@ export async function run(tab,{goal,controls=[],policy,envFile,provider,model,al
     try {
       decision = await decide({envFile,provider,model,goal,state,actions,history,timeoutMs:Math.max(1,Math.min(decisionTimeoutMs,Math.floor(maxMs-(performance.now()-startedAt))))});
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Decision failed';
+      const message = types.isNativeError(error) ? error.message : 'Decision failed';
       const canRetry = /transport failure or timeout/.test(message) && decisionRetries < maxDecisionRetries && maxMs-(performance.now()-startedAt) >= 1000;
       history.push({provider:provider ?? 'typesafe',choice:'ERROR',confidence:null,model:model ?? null,apiMs:Math.round(performance.now()-decisionStartedAt),action:'Decision request',executed:false,reason:canRetry ? 'decision_retry' : 'decision_error'});
       if (canRetry) {
@@ -196,7 +196,7 @@ export async function run(tab,{goal,controls=[],policy,envFile,provider,model,al
         step -= 1;
         continue;
       }
-      return result('decision_error',history,state,startedAt,{error:error instanceof Error ? error.message : 'Decision failed'});
+      return result('decision_error',history,state,startedAt,{error:message});
     }
     decisionRetries = 0;
     const record = {provider:decision.provider,choice:decision.choice,confidence:decision.confidence,model:decision.model,apiMs:decision.apiMs,action:decision.action?.description ?? decision.choice};
@@ -221,7 +221,7 @@ export async function run(tab,{goal,controls=[],policy,envFile,provider,model,al
       await execute(tab,decision.action);
     } catch (error) {
       history.push({...record,executed:false,reason:'action_error'});
-      return result('action_error',history,state,startedAt,{error:error instanceof Error ? error.message : 'Action failed'});
+      return result('action_error',history,state,startedAt,{error:types.isNativeError(error) ? error.message : 'Action failed'});
     }
     history.push({...record,executed:true});
     const next = await tab.getAXState({emit:false,disableDiffing:true});
