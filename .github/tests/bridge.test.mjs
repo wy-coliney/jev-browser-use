@@ -264,6 +264,20 @@ describe('decide contract and security validation', () => {
     );
   });
 
+  test('throws when OpenCode API key is missing from environment', async () => {
+    await assert.rejects(
+      async () => {
+        await decide({
+          provider: 'opencode',
+          goal: 'Test',
+          state: '',
+          actions: []
+        });
+      },
+      /OPENCODE_API_KEY is missing/
+    );
+  });
+
   test('blocks execution when API key is detected in model input payload', async () => {
     const tempDir = await mkdtemp(join(tmpdir(), 'jev-test-'));
     const envFile = join(tempDir, 'test.env');

@@ -6,7 +6,12 @@ import { fileURLToPath } from 'node:url';
 import { createInterface } from 'node:readline/promises';
 
 const sourceRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const models = { typesafe: 'jev-latest', openrouter: '~typesafe/jev-latest' };
+const models = { typesafe: 'jev-latest', openrouter: '~typesafe/jev-latest', opencode: 'jev-1.13-free' };
+const modelPatterns = {
+  typesafe: /^jev-[a-z0-9.-]{1,80}$/,
+  openrouter: /^(?:~?typesafe\/)?jev-[a-z0-9.-]{1,80}$/,
+  opencode: /^jev-[a-z0-9.-]{1,80}$/,
+};
 const runtimeFiles = ['SKILL.md', 'bridge.mjs', 'references'];
 
 async function exists(path) {
@@ -28,8 +33,8 @@ export async function install({ source = sourceRoot, home = homedir(), config } 
   }
   const preserveConfig = await exists(configPath);
   if (config && !preserveConfig) {
-    if (!Object.hasOwn(models, config.provider)) throw new Error('Choose typesafe or openrouter.');
-    const pattern = config.provider === 'typesafe' ? /^jev-[a-z0-9.-]{1,80}$/ : /^(?:~?typesafe\/)?jev-[a-z0-9.-]{1,80}$/;
+    if (!Object.hasOwn(models, config.provider)) throw new Error('Choose typesafe, openrouter, or opencode.');
+    const pattern = modelPatterns[config.provider];
     if (typeof config.model !== 'string' || !pattern.test(config.model)) throw new Error('Enter a valid Jev model ID.');
     if (!isAbsolute(config.envFile ?? '') || !(await exists(config.envFile)) || !(await stat(config.envFile)).isFile()) {
       throw new Error('Provide an absolute path to an existing dotenv file.');
@@ -62,8 +67,8 @@ async function main() {
     if (!process.stdin.isTTY) throw new Error('Run interactively to configure, or use --no-config.');
     const prompts = createInterface({ input: process.stdin, output: process.stdout });
     try {
-      const provider = (await prompts.question('Jev provider (typesafe / openrouter): ')).trim();
-      if (!Object.hasOwn(models, provider)) throw new Error('Choose typesafe or openrouter.');
+      const provider = (await prompts.question('Jev provider (typesafe / openrouter / opencode): ')).trim();
+      if (!Object.hasOwn(models, provider)) throw new Error('Choose typesafe, openrouter, or opencode.');
       const model = (await prompts.question(`Model [${models[provider]}]: `)).trim() || models[provider];
       const envFile = (await prompts.question('Absolute path to your existing dotenv file (not the API key): ')).trim();
       config = { provider, model, envFile };

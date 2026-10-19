@@ -24,7 +24,7 @@ For manual installation and guided API setup:
 1. Check Node.js 22+ and Git are available.
 2. Clone `https://github.com/wy-coliney/jev-browser-use.git` into a new temporary directory.
 3. From that checkout, run `node scripts/install.mjs --no-config`. This installs to `~/.agents/skills/jev-browser-use` without interactive prompts or changing existing settings.
-4. If `~/.config/jev-browser-use/config.json` already exists, preserve it. Otherwise, ask which provider the user wants (`typesafe` or `openrouter`) and the absolute path to their local credential dotenv file. Never ask for a key in chat or print the file.
+4. If `~/.config/jev-browser-use/config.json` already exists, preserve it. Otherwise, ask which provider the user wants (`typesafe`, `openrouter`, or `opencode`) and the absolute path to their local credential dotenv file. Never ask for a key in chat or print the file.
 5. Configure using the installer's exported function, run from the checkout with `node --input-type=module`:
 
 ```js
@@ -38,7 +38,7 @@ await install({
 });
 ```
 
-Use the user's chosen settings; OpenRouter's default model is `~typesafe/jev-latest`. Pass paths safely, not as unescaped shell substitutions. See [provider configuration](skills/jev-browser-use/references/provider-configuration.md) for credential variable names. If API access is not ready, finish installing and report configuration as pending.
+Use the user's chosen settings and the default model for their provider (`jev-latest` for TypeSafe, `~typesafe/jev-latest` for OpenRouter, or `jev-1.13-free` for OpenCode Console). Pass paths safely, not as unescaped shell substitutions. See [provider configuration](skills/jev-browser-use/references/provider-configuration.md) for credential variable names. If API access is not ready, finish installing and report configuration as pending.
 
 Confirm the installed `SKILL.md` and `bridge.mjs` match `skills/jev-browser-use/` in the checkout, then remove only the temporary directory you created. Report installation and configuration status separately; no paid API test is needed.
 

@@ -114,7 +114,7 @@ next invocation. Keep `taskTab` for subsequent navigation and the Jev loop.
 After the first CUA call, use this credential-free probe when setup or a Jev
 request reports a transport failure. Run it **inside `mcp__cua_repl.js`**, where
 the bridge's `fetch` runs. It does not call the Jev API or read the credential
-file. Replace `api.typesafe.ai` with `openrouter.ai` for OpenRouter.
+file. Replace `api.typesafe.ai` with `openrouter.ai` for OpenRouter or `opencode.ai` for OpenCode Console.
 
 ```js
 var dns = await import('node:dns/promises');

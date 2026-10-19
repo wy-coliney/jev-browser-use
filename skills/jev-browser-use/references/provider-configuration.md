@@ -10,8 +10,9 @@ Match the provider to the service that issued your key:
 | --- | --- | --- | --- |
 | TypeSafe | `typesafe` | `TYPESAFE_API_KEY` | `api.typesafe.ai` |
 | OpenRouter | `openrouter` | `OPENROUTER_API_KEY` | `openrouter.ai` |
+| OpenCode Console | `opencode` | `OPENCODE_API_KEY` | `opencode.ai/zen` |
 
-A TypeSafe key in `OPENROUTER_API_KEY` will be sent to OpenRouter and will not authenticate there. If you have a TypeSafe key, choose the TypeSafe adapter instead. The dotenv filename is not fixed: the Skill reads only the file specified by `envFile` in `config.json`.
+Keys are not interchangeable across providers, even though all three can serve Jev. A TypeSafe key in `OPENROUTER_API_KEY` will be sent to OpenRouter and will not authenticate there. If you have a TypeSafe key, choose the TypeSafe adapter instead. The dotenv filename is not fixed: the Skill reads only the file specified by `envFile` in `config.json`.
 
 ## Configuration file
 
@@ -49,9 +50,21 @@ The adapter reads `TYPESAFE_API_KEY` and uses the fixed TypeSafe SystemOne endpo
 
 The adapter reads `OPENROUTER_API_KEY` (lowercase `openrouter_api_key` is also accepted) and uses OpenRouter's Decisions endpoint. The leading `~` requests the latest compatible Jev release.
 
+### OpenCode Console SystemOne endpoint
+
+```json
+{
+  "envFile": "/absolute/path/to/your/credentials.env",
+  "provider": "opencode",
+  "model": "jev-1.13-free"
+}
+```
+
+The adapter reads `OPENCODE_API_KEY` (lowercase `opencode_api_key` is also accepted) and uses OpenCode Console's SystemOne endpoint. Use `jev-1.13-free` for the limited-time free model or `jev-1.13` for the paid model.
+
 ## Shared behavior
 
-- Both adapters use Bearer authentication, reject redirects, validate the returned choice schema, confidence, probabilities, and model identity, and keep credentials out of the decision body.
+- All adapters use Bearer authentication, reject redirects, validate the returned choice schema, confidence, probabilities, and model identity, and keep credentials out of the decision body.
 - A transport failure may be retried once within the same bounded run using the same adapter and model. Authentication, schema, and quota failures are not retried.
 - Missing credentials are configuration errors. Do not search unrelated files or silently switch adapters.
 - Browser tasks should spread `loadConfig()` into `createSession()` or `run()` unchanged. Provider changes belong to installation or maintenance, not task execution.
@@ -68,4 +81,5 @@ The adapter reads `OPENROUTER_API_KEY` (lowercase `openrouter_api_key` is also a
 - [TypeSafe documentation](https://docs.typesafe.ai/introduction)
 - [OpenRouter Jev latest](https://openrouter.ai/~typesafe/jev-latest)
 - [OpenRouter Decisions schema](https://openrouter.ai/openapi.json)
+- [OpenCode Console models](https://opencode.ai/v2/docs/console/models/)
 - [Browser Use Jev example](https://github.com/browser-use/jev-ultrafast)

@@ -30,9 +30,9 @@ npx skills update jev-browser-use -g
 
 Start a new Codex task after updating to load the new Skill instructions. The update does not change your `~/.config/jev-browser-use/config.json` or credential file.
 
-Choose the provider that issued your API key. A TypeSafe key goes with `provider: "typesafe"` and `TYPESAFE_API_KEY`; an OpenRouter key goes with `provider: "openrouter"` and `OPENROUTER_API_KEY`. These keys are not interchangeable, even though both providers offer Jev. Put the key in the dotenv file named by `envFile` in `~/.config/jev-browser-use/config.json`.
+Choose the provider that issued your API key. A TypeSafe key goes with `provider: "typesafe"` and `TYPESAFE_API_KEY`; an OpenRouter key goes with `provider: "openrouter"` and `OPENROUTER_API_KEY`; an OpenCode Console key goes with `provider: "opencode"` and `OPENCODE_API_KEY`. These keys are not interchangeable, even though all three providers can serve Jev. Put the key in the dotenv file named by `envFile` in `~/.config/jev-browser-use/config.json`.
 
-You need **Node.js 22+**, **Codex with Computer Use connected to Chrome or its in-app browser**, and **Jev access through TypeSafe or OpenRouter Decisions**. Installing this Skill does not install the browser connection.
+You need **Node.js 22+**, **Codex with Computer Use connected to Chrome or its in-app browser**, and **Jev access through TypeSafe, OpenRouter Decisions, or OpenCode Console**. Installing this Skill does not install the browser connection.
 
 <details>
 <summary><strong>Prefer the native Codex plugin?</strong></summary>
@@ -161,7 +161,7 @@ If Chrome connection fails before Jev runs, check the [browser connector guidanc
 
 ## Official guides
 
-[Jev introduction](https://docs.typesafe.ai/introduction) · [Jev API quick start](https://docs.typesafe.ai/introduction/quickstart) · [Codex plugins](https://developers.openai.com/plugins/build/plugins) · [Skills CLI](https://github.com/vercel-labs/skills)
+[Jev introduction](https://docs.typesafe.ai/introduction) · [Jev API quick start](https://docs.typesafe.ai/introduction/quickstart) · [OpenCode Console models](https://opencode.ai/v2/docs/console/models/) · [Codex plugins](https://developers.openai.com/plugins/build/plugins) · [Skills CLI](https://github.com/vercel-labs/skills)
 
 Also worth exploring: [Browser Use’s Jev Ultrafast](https://github.com/browser-use/jev-ultrafast), a standalone browser-agent project using Jev.
 
